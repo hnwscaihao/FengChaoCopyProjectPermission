@@ -1,0 +1,5 @@
+2020-02-28 16:12:43 [com.gw.test]-[DEBUG] debug
+2020-02-28 16:12:43 [com.gw.test]-[INFO] test
+2020-02-28 16:12:43 [com.gw.test]-[WARN] warn
+2020-02-28 16:12:43 [com.gw.test]-[ERROR] error
+2020-02-28 16:12:43 [com.gw.test]-[FATAL] fatal
