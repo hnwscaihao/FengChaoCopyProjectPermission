@@ -104,7 +104,7 @@ import static javax.swing.SpringLayout.EAST;
 
 
         setTitle("Project动态组设置");
-        setBounds(0, 0, 700, 480);
+        setBounds(0, 0, 737, 480);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        setLayout(springLayout);//设置窗体布局格式为弹簧式布局
         setLocationRelativeTo(null);//窗体居中显示
@@ -122,7 +122,7 @@ import static javax.swing.SpringLayout.EAST;
         initBtn(0);//按钮
 //        int tabIndex = jtp.getSelectedIndex();
         tabGUi1.setLayout(new BorderLayout(20,-5));
-        jtp.setPreferredSize(new Dimension(683,400));
+        jtp.setPreferredSize(new Dimension(720,400));
         tabUp1.add(jtp);
         tabGUi1.add(tabUp1);
         tabGUi1.add(tabUp2,BorderLayout.SOUTH);
@@ -720,9 +720,9 @@ import static javax.swing.SpringLayout.EAST;
         jl.setBorder(null);  //不显示边框
         jl.setFont(new Font("宋体",Font.PLAIN,12));
         jl.setHorizontalAlignment(JTextField.LEFT);
-        jplab.add(jl);
-        jplab.setPreferredSize(new Dimension(180, 120));
-        box7.add(jplab);
+//        jplab.add(jl);
+//        jplab.setPreferredSize(new Dimension(230, 120));
+        box7.add(jl);
 
         Box allUserbox= Box.createVerticalBox();
         for(String str : AllUsers){
