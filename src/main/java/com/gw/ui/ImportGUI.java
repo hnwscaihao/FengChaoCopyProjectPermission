@@ -104,7 +104,7 @@ import static javax.swing.SpringLayout.EAST;
 
 
         setTitle("Project动态组设置");
-        setBounds(0, 0, 737, 480);
+        setBounds(0, 0, 742, 480);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        setLayout(springLayout);//设置窗体布局格式为弹簧式布局
         setLocationRelativeTo(null);//窗体居中显示
@@ -122,7 +122,7 @@ import static javax.swing.SpringLayout.EAST;
         initBtn(0);//按钮
 //        int tabIndex = jtp.getSelectedIndex();
         tabGUi1.setLayout(new BorderLayout(20,-5));
-        jtp.setPreferredSize(new Dimension(720,400));
+        jtp.setPreferredSize(new Dimension(724,400));
         tabUp1.add(jtp);
         tabGUi1.add(tabUp1);
         tabGUi1.add(tabUp2,BorderLayout.SOUTH);
@@ -205,9 +205,12 @@ import static javax.swing.SpringLayout.EAST;
         cmb.setPreferredSize(new Dimension (300,28));
         cmb.addItem("——请选择——");
         box1.add(Box.createHorizontalStrut(20));
-
+//        JRadioButton rb1=new JRadioButton("是否复制已经选中的project");
+//        box2.add(rb1);
         box5.add(Box.createVerticalStrut(120));
         box5.add(box1);
+        box5.add(Box.createVerticalStrut(25));
+        box5.add(box2);
 
         jp1.add(box5);
         jtp.addTab("Search" ,jp1);
@@ -278,11 +281,37 @@ import static javax.swing.SpringLayout.EAST;
                         DynamicGroupNames.add("System Leaders DG");
                         DynamicGroupNames.add("Test Engineer DG");
                         DynamicGroupNames.add("Test Leader DG");
-                        m.getProjectDynamicGroupsMember(DynamicGroupNames, caseName);
-                        m.getAllUser();
+                        //判断是否选中projectid
+//                        Component[]  jcbs = box2.getComponents();
+//                        for(Component component : jcbs){
+//                            JRadioButton jcb = (JRadioButton) component;//需要强制转换成jcheckbox
+//                            if(jcb.isSelected()) {
+//                                if ( m.tsIds.size() == 1) {//如果选中的id则复制项用户
+//                                    String projectName =  m.getProjectNameById(m.tsIds.get(0));
+//                                    Map<String,List<String>> resultMap = m.getProjectDynamicGroupsMember1(DynamicGroupNames,projectName);
+//                                    for(String key : resultMap.keySet()){
+//                                        m.updateDynamicGroup(caseName,key,resultMap.get(key));
+//                                    }
+//                                } else {
+//                                    JOptionPane.showMessageDialog(null,"请先选中需要复制projectId", "错误", 0);
+//                                    System.exit(0); //关闭主程序
+//                                }
+//                            }
+//                        }
+                        if ( m.tsIds.size() == 1) {//如果选中的id则复制项用户
+                            String projectName =  m.getProjectNameById(m.tsIds.get(0));
+                            Map<String,List<String>> resultMap = m.getProjectDynamicGroupsMember1(DynamicGroupNames,projectName);
+                            for(String key : resultMap.keySet()){
+                                m.updateDynamicGroup(caseName,key,resultMap.get(key));
+                            }
+                        }
+                        m.getProjectDynamicGroupsMember(DynamicGroupNames, caseName);//根据项目查询组用户
+                        m.getAllUser();//查询全部用户
 //                      m.getProjectDynamicGroupsMember(Arrays.asList("ASW Engineer DG", "Project Team"), "/ALM项目组");
                     } catch (APIException ex) {
                         ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "错误", 0);
+                        System.exit(0); //关闭主程序
                     }
 
                     jtp.setSelectedIndex(index);
@@ -396,9 +425,11 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("ASW Engineer DG")){
                 ASWEngineerDGName = key;
                 try {
-                    ASWEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        ASWEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
-                    e.printStackTrace();
+                      e.printStackTrace();
                 }
                 for(String s : All_user){
                     if(ASWEngineerDGUsers.indexOf(s) == -1){
@@ -409,7 +440,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("ASW Leader DG")){
                 ASWLeaderDGName = key;
                 try {
-                    ASWLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        ASWLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -422,7 +455,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("BSW Engineer DG")){
                 BSWEngineerDGName = key;
                 try {
-                    BSWEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        BSWEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -435,7 +470,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("BSW Leader DG")){
                 BSWLeaderDGName = key;
                 try {
-                    BSWLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        BSWLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -448,7 +485,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("CCB DG")){
                 CCBDGName = key;
                 try {
-                    CCBDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        CCBDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -461,7 +500,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("CCB Leader DG")){
                 CCBLeaderDGName = key;
                 try {
-                    CCBLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        CCBLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -474,7 +515,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Configuration Manager DG")){
                 ConfigurationManagerDGName = key;
                 try {
-                    ConfigurationManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        ConfigurationManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -487,7 +530,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Director DG")){
                 DirectorDGName = key;
                 try {
-                    DirectorDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        DirectorDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -500,7 +545,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Functional Safety Engineer DG")){
                 FunctionSafetyEngineerDGName = key;
                 try {
-                    FunctionSafetyEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        FunctionSafetyEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -513,7 +560,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Functional Safety Leader DG")){
                 FunctionSafetyLeaderDGName = key;
                 try {
-                    FunctionSafetyLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        FunctionSafetyLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -526,7 +575,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Hardware Engineer DG")){
                 HardwareEngineerDGName = key;
                 try {
-                    HardwareEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        HardwareEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -539,7 +590,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Hardware Engineer Leader DG")){
                 HardwareEnginnerLeaderDGName = key;
                 try {
-                    HardwareEnginnerLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        HardwareEnginnerLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -552,7 +605,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("PRC DG")){
                 PRCDGName = key;
                 try {
-                    PRCDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        PRCDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -565,7 +620,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("PRC Group Leader DG")){
                 PRCGroupLeaderDGName = key;
                 try {
-                    PRCGroupLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        PRCGroupLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -578,7 +635,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Project Manager DG")){
                 ProjectManagerDGName = key;
                 try {
-                    ProjectManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        ProjectManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -591,7 +650,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("QA DG")){
                 QADGName = key;
                 try {
-                    QADGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        QADGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -604,7 +665,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Review Committee DG")){
                 ReviewCommitteeDGName = key;
                 try {
-                    ReviewCommitteeDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        ReviewCommitteeDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -617,7 +680,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Review Committee Leader DG")){
                 ReviewCommitteeLeaderDGName = key;
                 try {
-                    ReviewCommitteeLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        ReviewCommitteeLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -630,7 +695,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("System Engineer DG")){
                 SystemEngineerDGName = key;
                 try {
-                    SystemEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        SystemEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -643,7 +710,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("System Leaders DG")){
                 SystemLeaderDGName = key;
                 try {
-                    SystemLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        SystemLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -656,7 +725,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Test Engineer DG")){
                 TestEngineerDGName = key;
                 try {
-                    TestEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        TestEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -669,7 +740,9 @@ import static javax.swing.SpringLayout.EAST;
             if(key.equals("Test Leader DG")){
                 TestLeaderDGName = key;
                 try {
-                    TestLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    if(groupMemberRecord.get(key).size() > 0){
+                        TestLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
@@ -690,7 +763,7 @@ import static javax.swing.SpringLayout.EAST;
         ASWEngineerDG(ProjectName,ConfigurationManagerDGName,ConfigurationManagerDGUsers,ConfigurationManagerDGExcludeUsers,ConfigurationManagerDGBox,new JButton(">"),new JButton("<"));
         ASWEngineerDG(ProjectName,DirectorDGName,DirectorDGUsers,DirectorDGExcludeUsers,DirectorDGBox,new JButton(">"),new JButton("<"));
         ASWEngineerDG(ProjectName,FunctionSafetyEngineerDGName,FunctionSafetyEngineerDGUsers,FunctionSafetyEngineerDGExcludeUsers,FunctionSafetyEngineerDGBox,new JButton(">"),new JButton("<"));
-        ASWEngineerDG(ProjectName,FunctionSafetyLeaderDGName,FunctionSafetyLeaderDGUsers,FunctionSafetyLeaderDGUsers,FunctionSafetyLeaderDGBox,new JButton(">"),new JButton("<"));
+        ASWEngineerDG(ProjectName,FunctionSafetyLeaderDGName,FunctionSafetyLeaderDGUsers,FunctionSafetyLeaderDGExcludeUsers,FunctionSafetyLeaderDGBox,new JButton(">"),new JButton("<"));
         ASWEngineerDG(ProjectName,HardwareEngineerDGName,HardwareEngineerDGUsers,HardwareEngineerDGExcludeUsers,HardwareEngineerDGBox,new JButton(">"),new JButton("<"));
         ASWEngineerDG(ProjectName,HardwareEnginnerLeaderDGName,HardwareEnginnerLeaderDGUsers,HardwareEnginnerLeaderDGExcludeUsers,HardwareEnginnerLeaderDGBox,new JButton(">"),new JButton("<"));
         ASWEngineerDG(ProjectName,PRCDGName,PRCDGUsers,PRCDGExcludeUsers,PRCDGBox,new JButton(">"),new JButton("<"));
@@ -757,7 +830,7 @@ import static javax.swing.SpringLayout.EAST;
         }
         box72.add(GUserbox);
         jp2.setBorder(BorderFactory.createLoweredBevelBorder());
-        jp2.setPreferredSize(new Dimension(210, 120));
+//        jp2.setPreferredSize(new Dimension(210, 120));
 //        jp2.add(box72);
         jp2.add(box72,BorderLayout.WEST);
         JScrollPane js2=new JScrollPane(jp2);

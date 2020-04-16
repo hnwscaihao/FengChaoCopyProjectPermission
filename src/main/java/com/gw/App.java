@@ -30,13 +30,14 @@ public class App {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//设置与本机适配的swing样式
             MKSCommand m = new MKSCommand();
             initMksCommand();//初始化MKSCommand中的参数，并获得连接
-            List<Map<String, String>> l = getAllProject(Arrays.asList("id", "name"));//获取到当前选中的id添加进集合Ids集合
+//            List<Map<String, String>> l = getAllProject(Arrays.asList("id", "name"));//获取到当前选中的id添加进集合Ids集合
+            List<String> l = m.getSelectedIdList();//获取到当前选中的id添加进集合Ids集合
             if (l.size() > 0) {
                 log.info("连接成功！");
-                for (Map<String, String> s : l) {
-                    String casename = s.get("name");
+                for (String s : l) {
+//                    String casename = s.get("name");
 //                    String casename = imp.textxz(s.get("name"), s.get("id"));
-                    imp.cmb.addItem(casename);
+                    imp.cmb.addItem(s);
                 }
                 imp.glasspane.stop();
             } else {
