@@ -1,4 +1,4 @@
-package com.gw.service;
+package com.gw.util;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;

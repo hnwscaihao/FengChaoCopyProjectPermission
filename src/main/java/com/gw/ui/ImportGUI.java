@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.gw.service.DealService.allUserList;
-import static com.gw.service.DealService.groupMemberRecord;
-import static com.gw.service.DealService.All_user;
+import static com.gw.util.DealService.allUserList;
+import static com.gw.util.DealService.groupMemberRecord;
+import static com.gw.util.DealService.All_user;
 import static javax.swing.SpringLayout.EAST;
 
 /**
