@@ -1199,8 +1199,8 @@ public class MKSCommand {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<String> getSelectedIdList() throws Exception {
-		List<String> list = new ArrayList<String>();
+	public static Map<String,String> getSelectedIdList() throws Exception {
+		Map<String,String> list = new HashMap<>();
 		List<String> caseIds = new ArrayList<String>();
 		String issueCount = ENVIRONMENTVAR.get(Constants.MKSSI_NISSUE);
 		if (issueCount != null && issueCount.trim().length() > 0) {
@@ -1211,10 +1211,10 @@ public class MKSCommand {
 		} else {
 			 logger.info("身份验证失败!! :" + issueCount);
 		}
-//		tsIds.add("21222");//本地
+//		tsIds.add("9801");//本地
 //查詢project
 		Command cmd = new Command("im", "issues");
-		cmd.addOption(new Option("fields","Project"));
+		cmd.addOption(new Option("fields","Project,id"));
 		String query = "((field[Type]=Project) and ((field[Project Manager]="+longinUser+") or (field[Created By]="+longinUser+") ))";
 		cmd.addOption(new Option("queryDefinition",query));
 		Response res = null;
@@ -1224,7 +1224,8 @@ public class MKSCommand {
 			while (it.hasNext()) {
 				WorkItem wi = it.next();
 				String value = wi.getField("Project").getValueAsString();
-				list.add(value);
+				String projectid = wi.getId();
+				list.put(projectid,value);
 			}
 		} catch (APIException e) {
 			logger.error(e.getMessage());
@@ -1473,6 +1474,9 @@ public class MKSCommand {
 
 	//获取最后一个口号中的值
 	public static String getValuesInParentheses(String msg){
+		if(msg.split("\\(").length == 1){
+			return msg;
+		}
 		String projectId = "";
 		Pattern p = Pattern.compile("\\(([^\\)]+)\\)");
 		Matcher m = p.matcher(msg);
@@ -1563,4 +1567,21 @@ public class MKSCommand {
 		return members;
 	}
 
+
+	//修改project动态组
+	public void updateProjectDynamicGroup(String projectId,Map<String,List<String>> fieldValue) throws APIException {
+		Command cmd = new Command(Command.IM, "editissue");
+		if (fieldValue != null) {
+			for (String key  : fieldValue.keySet()) {
+				String str = "";
+				for(String s:fieldValue.get(key)){
+					str += getValuesInParentheses(s) + ",";
+				}
+				str = str.substring(0,str.length()-1);
+				cmd.addOption(new Option("field", key+ "=" + str));
+			}
+		}
+		cmd.addSelection(projectId);
+		mksCmdRunner.execute(cmd);
+	}
 }

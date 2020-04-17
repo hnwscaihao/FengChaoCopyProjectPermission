@@ -7,12 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static com.gw.util.MKSCommand.getAllProject;
 import static com.gw.util.MKSCommand.initMksCommand;
 
 public class App {
@@ -31,13 +27,14 @@ public class App {
             MKSCommand m = new MKSCommand();
             initMksCommand();//初始化MKSCommand中的参数，并获得连接
 //            List<Map<String, String>> l = getAllProject(Arrays.asList("id", "name"));//获取到当前选中的id添加进集合Ids集合
-            List<String> l = m.getSelectedIdList();//获取到当前选中的id添加进集合Ids集合
+            Map<String,String> l = m.getSelectedIdList();//获取到当前选中的id添加进集合Ids集合
             if (l.size() > 0) {
                 log.info("连接成功！");
-                for (String s : l) {
-//                    String casename = s.get("name");
+                for (String s : l.keySet()) {
+                    String casename = l.get(s);
 //                    String casename = imp.textxz(s.get("name"), s.get("id"));
-                    imp.cmb.addItem(s);
+                    imp.cmb.addItem(casename);
+                    imp.ProjectIDAndName.put(casename,s);
                 }
                 imp.glasspane.stop();
             } else {

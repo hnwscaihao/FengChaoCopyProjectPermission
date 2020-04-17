@@ -3,7 +3,6 @@ package com.gw.ui;
 import com.gw.service.ImportService;
 import com.gw.ui.swingUI.InfiniteProgressPanel;
 import com.gw.util.MKSCommand;
-import com.gw.util.Result;
 import com.mks.api.response.APIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,16 +11,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.*;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static com.gw.util.DealService.allUserList;
 import static com.gw.util.DealService.groupMemberRecord;
 import static com.gw.util.DealService.All_user;
-import static javax.swing.SpringLayout.EAST;
 
 /**
  * Swing面板 lxg
@@ -30,38 +24,19 @@ import static javax.swing.SpringLayout.EAST;
 
     private static final Log log = LogFactory.getLog(ImportService.class);
 
-    public File selectedFile = new File(""); //导入文件
     public InfiniteProgressPanel glasspane = new InfiniteProgressPanel(); //加载中
 
-    //流式布局
-    SpringLayout springLayout = new SpringLayout();
-    // 创建一个进度条
-    public JProgressBar progressBar = new JProgressBar();
-    private static final int MIN_PROGRESS = 0;
-    private static final int MAX_PROGRESS = 100;
-    private static int currentProgress = MIN_PROGRESS;
     //选项卡
     JTabbedPane jtp = new JTabbedPane();
     Container con = getContentPane();//获得窗体容器对象
 
     public JComboBox cmb=new JComboBox();    //创建JComboBox
-    JTextField txtfield1=new JTextField(30);    //创建文本框
 
-    public String sessionid = "";
-    public String caseId = "";
-    public String projectId = "";
-    public  Map<String,String> caseIds = new HashMap<String,String>();
-
-    List<Map<String,String>> testReulst;
-    List<Map<String,String>> CaseReulst;
-    String  TypeStr;//保存longtext 类型
 
     Box box1 = Box.createHorizontalBox();
     Box box2 = Box.createHorizontalBox();
-    Box box3 = Box.createHorizontalBox();
     Box box5 = Box.createVerticalBox();
     Box box4 = Box.createHorizontalBox();
-    Box box6= Box.createVerticalBox();
 
     Box ASWEngineerDGBox= Box.createHorizontalBox();
     Box ASWLeaderDGBox= Box.createHorizontalBox();
@@ -86,8 +61,9 @@ import static javax.swing.SpringLayout.EAST;
     Box TestEngineerDGBox= Box.createHorizontalBox();
     Box TestLeaderDGBox= Box.createHorizontalBox();
 
-
-
+    Map<String,List<String>> userData = new HashMap<>();//project组用户
+    public Map<String,String> ProjectIDAndName = new HashMap<>();
+    String caseName = "";
     Box box9= Box.createVerticalBox();
     JPanel jp1 = new JPanel();
     JPanel jp2 = new JPanel();
@@ -213,7 +189,7 @@ import static javax.swing.SpringLayout.EAST;
         box5.add(box2);
 
         jp1.add(box5);
-        jtp.addTab("Search" ,jp1);
+        jtp.addTab("Next" ,jp1);
         jtp.setEnabledAt(0,false);
 
     }
@@ -252,7 +228,7 @@ import static javax.swing.SpringLayout.EAST;
                 if(index == 1) {
                     MKSCommand m = new MKSCommand();
                     //获取session判断是否为空
-                    String caseName = cmb.getSelectedItem().toString();
+                    caseName = cmb.getSelectedItem().toString();
                     if(caseName.equals("——请选择——")){
                         JOptionPane.showMessageDialog(null,"请选选择项目", "提示", 1);
                         return;
@@ -301,9 +277,7 @@ import static javax.swing.SpringLayout.EAST;
                         if ( m.tsIds.size() == 1) {//如果选中的id则复制项用户
                             String projectName =  m.getProjectNameById(m.tsIds.get(0));
                             Map<String,List<String>> resultMap = m.getProjectDynamicGroupsMember1(DynamicGroupNames,projectName);
-                            for(String key : resultMap.keySet()){
-                                m.updateDynamicGroup(caseName,key,resultMap.get(key));
-                            }
+                            new MKSCommand().updateProjectDynamicGroup(ProjectIDAndName.get(caseName),resultMap);
                         }
                         m.getProjectDynamicGroupsMember(DynamicGroupNames, caseName);//根据项目查询组用户
                         m.getAllUser();//查询全部用户
@@ -320,8 +294,16 @@ import static javax.swing.SpringLayout.EAST;
 //                log.info("点击搜索");
 //                jtp.setSelectedIndex(index);
                 }else {
-                    jtp.setSelectedIndex(index);
-                    initBtn(0);
+                    //保存动态组到project前台
+                    try {
+                        new MKSCommand().updateProjectDynamicGroup(ProjectIDAndName.get(caseName),userData);
+                        jtp.setSelectedIndex(index);
+                        initBtn(0);
+                    } catch (APIException e1) {
+                        JOptionPane.showMessageDialog(null, "保存错误!", "错误", 0);
+                        System.exit(0); //关闭主程序
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
@@ -787,6 +769,7 @@ import static javax.swing.SpringLayout.EAST;
         Box box72= Box.createVerticalBox();
         Box box73= Box.createVerticalBox();
 
+        userData.put(name,users);
         JPanel jplab = new JPanel();
         JTextField jl=new JTextField(name);
         jl.setEditable(false);  //不可编辑
@@ -867,16 +850,18 @@ import static javax.swing.SpringLayout.EAST;
                         qbyh.add(s);
                     }
                 }
-
-                try {
-                    m.updateDynamicGroup(ProjectName,name,zyh);//后台处理
-                    dtBox.removeAll();
-                    ASWEngineerDG(ProjectName,name,zyh,qbyh,dtBox,new JButton(">"),new JButton("<"));//页面处理
-                } catch (APIException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "错误", 0);
-                    System.exit(0); //关闭主程序
-                    ex.printStackTrace();
-                }
+                userData.put(name,zyh);
+                dtBox.removeAll();
+                ASWEngineerDG(ProjectName,name,zyh,qbyh,dtBox,new JButton(">"),new JButton("<"));//页面处理
+//                try {
+//                    m.updateDynamicGroup(ProjectName,name,zyh);//后台处理
+//
+//
+//                } catch (APIException ex) {
+//                    JOptionPane.showMessageDialog(null, ex.getMessage(), "错误", 0);
+//                    System.exit(0); //关闭主程序
+//                    ex.printStackTrace();
+//                }
             }
         });
         jb2.addMouseListener(new MouseAdapter(){
@@ -905,15 +890,18 @@ import static javax.swing.SpringLayout.EAST;
                 for(String s : l){
                     qbyh.add(s);
                 }
-                try {
-                    m.updateDynamicGroup(ProjectName,name,zyh);
-                    dtBox.removeAll();
-                    ASWEngineerDG(ProjectName,name,zyh,qbyh,dtBox,new JButton(">"),new JButton("<"));
-                } catch (APIException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "错误", 0);
-                    System.exit(0); //关闭主程序
-                    ex.printStackTrace();
-                }
+                userData.put(name,zyh);
+                dtBox.removeAll();
+                ASWEngineerDG(ProjectName,name,zyh,qbyh,dtBox,new JButton(">"),new JButton("<"));
+//                try {
+//                    m.updateDynamicGroup(ProjectName,name,zyh);
+//
+//
+//                } catch (APIException ex) {
+//                    JOptionPane.showMessageDialog(null, ex.getMessage(), "错误", 0);
+//                    System.exit(0); //关闭主程序
+//                    ex.printStackTrace();
+//                }
             }
         });
 
@@ -954,7 +942,7 @@ import static javax.swing.SpringLayout.EAST;
         JPanel jp = new JPanel();
         if(index == 0){
             setTitle("Project动态组设置");
-            JButton button = new JButton("Search");
+            JButton button = new JButton("Next");
             button.setFocusPainted(false);  //去掉按钮字体焦点框
             button.setPreferredSize(new Dimension(78,34));
             button.setLocation(120,0);
@@ -964,16 +952,46 @@ import static javax.swing.SpringLayout.EAST;
             tabUp2.setLayout(new BorderLayout());
             tabUp2.add(jp,BorderLayout.EAST);
         }else {
-            JButton button = new JButton("back");
+            JButton button2 = new JButton("Clean");
+            JButton button  = new JButton("Save");
             button.setFocusPainted(false);  //去掉按钮字体焦点框
             button.setPreferredSize(new Dimension(81,32));
             button.setFont(new Font("宋体",Font.PLAIN,12));
+            button2.setFocusPainted(false);  //去掉按钮字体焦点框
+            button2.setPreferredSize(new Dimension(81,32));
+            button2.setFont(new Font("宋体",Font.PLAIN,12));
             Listener1(button,0);
+            Listener3(button2,0);
+            jp.add(button2);
             jp.add(button);
             tabUp2.setLayout(new BorderLayout());
             tabUp2.add(jp,BorderLayout.EAST);
         }
 
+    }
+
+    public void Listener3(JButton btn1, final int  index) {
+        btn1.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                List<JCheckBox> jLabels = new ArrayList<JCheckBox>();
+                harvestJLabels(box9, jLabels);
+                for(JCheckBox j : jLabels){
+                    j.setSelected(false);
+//                    log.info(j);
+                }
+            }
+        });
+    }
+//递归获取容器组件
+    public void harvestJLabels(Container c, List<JCheckBox> l) {
+        Component[] components = c.getComponents();
+        for(Component com : components) {
+            if(com instanceof JCheckBox) {
+                l.add((JCheckBox) com);
+            } else if(com instanceof Container) {
+                harvestJLabels((Container) com, l);
+            }
+        }
     }
 
 }
