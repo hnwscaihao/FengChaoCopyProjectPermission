@@ -197,9 +197,10 @@ import static com.gw.util.DealService.All_user;
 
     //搜索按钮监听 lxg
     public void Listener1(JButton btn1, final int  index) {
+//        glasspane.start();//开始动画加载效果
         btn1.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e){
-
+                log.info("------------------");
                 ASWEngineerDGBox.removeAll();
                 ASWLeaderDGBox.removeAll();
                 BSWEngineerDGBox.removeAll();
@@ -259,21 +260,21 @@ import static com.gw.util.DealService.All_user;
                         DynamicGroupNames.add("Test Leader DG");
                         //判断是否选中projectid
 //                        Component[]  jcbs = box2.getComponents();
-//                        for(Component component : jcbs){
-//                            JRadioButton jcb = (JRadioButton) component;//需要强制转换成jcheckbox
-//                            if(jcb.isSelected()) {
-//                                if ( m.tsIds.size() == 1) {//如果选中的id则复制项用户
-//                                    String projectName =  m.getProjectNameById(m.tsIds.get(0));
-//                                    Map<String,List<String>> resultMap = m.getProjectDynamicGroupsMember1(DynamicGroupNames,projectName);
-//                                    for(String key : resultMap.keySet()){
-//                                        m.updateDynamicGroup(caseName,key,resultMap.get(key));
-//                                    }
-//                                } else {
-//                                    JOptionPane.showMessageDialog(null,"请先选中需要复制projectId", "错误", 0);
-//                                    System.exit(0); //关闭主程序
-//                                }
-//                            }
-//                        }
+////                        for(Component component : jcbs){
+////                            JRadioButton jcb = (JRadioButton) component;//需要强制转换成jcheckbox
+////                            if(jcb.isSelected()) {
+////                                if ( m.tsIds.size() == 1) {//如果选中的id则复制项用户
+////                                    String projectName =  m.getProjectNameById(m.tsIds.get(0));
+////                                    Map<String,List<String>> resultMap = m.getProjectDynamicGroupsMember1(DynamicGroupNames,projectName);
+////                                    for(String key : resultMap.keySet()){
+////                                        m.updateDynamicGroup(caseName,key,resultMap.get(key));
+////                                    }
+////                                } else {
+////                                    JOptionPane.showMessageDialog(null,"请先选中需要复制projectId", "错误", 0);
+////                                    System.exit(0); //关闭主程序
+////                                }
+////                            }
+////                        }
                         if ( m.tsIds.size() == 1) {//如果选中的id则复制项用户
                             String projectName =  m.getProjectNameById(m.tsIds.get(0));
                             Map<String,List<String>> resultMap = m.getProjectDynamicGroupsMember1(DynamicGroupNames,projectName);
@@ -305,6 +306,7 @@ import static com.gw.util.DealService.All_user;
                         e1.printStackTrace();
                     }
                 }
+//                glasspane.stop();//开始动画加载效果
             }
         });
     }

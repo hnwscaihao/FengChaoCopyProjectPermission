@@ -13,7 +13,7 @@ import static com.gw.util.MKSCommand.initMksCommand;
 
 public class App {
 
-    private static final Log log = LogFactory.getLog(ImportService.class);
+    private static final Log log = LogFactory.getLog(App.class);
 
     public static void main(String[] args) {
         try {
