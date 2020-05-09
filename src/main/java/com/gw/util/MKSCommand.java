@@ -1167,8 +1167,9 @@ public class MKSCommand {
 			String host = ENVIRONMENTVAR.get(Constants.MKSSI_HOST);
 			if(host==null || host.length()==0) {
 //				host = "192.168.6.130";//本地
-//				host = "192.168.229.133";//本地
-				host = "10.255.33.189";//服务器
+				host = "192.168.229.133";//本地
+//				host = "10.255.33.189";//服务器
+//				host = "10.255.33.191";//临时服务器
 			}
 			String portStr = ENVIRONMENTVAR.get(Constants.MKSSI_PORT);
 			Integer port = portStr!=null && !"".equals(portStr)? Integer.valueOf(portStr) : 7001;
@@ -1176,12 +1177,12 @@ public class MKSCommand {
 			String pwd = "";
 			if(defaultUser == null || "".equals(defaultUser) ){
 				//本地
-//				defaultUser = "admin";
-//				pwd = "admin";
+				defaultUser = "admin";
+				pwd = "admin";
 
 				//服务器
-				defaultUser = "admin";
-				pwd = "456@alm.com";
+//				defaultUser = "admin";
+//				pwd = "456@alm.com";
 			}
 			longinUser = defaultUser;
 			logger.info("host:" + host+"; defaultUser:"+defaultUser+"; pwd:"+pwd);

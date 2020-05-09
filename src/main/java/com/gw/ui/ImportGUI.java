@@ -60,6 +60,8 @@ import static com.gw.util.DealService.All_user;
     Box SystemLeaderDGBox= Box.createHorizontalBox();
     Box TestEngineerDGBox= Box.createHorizontalBox();
     Box TestLeaderDGBox= Box.createHorizontalBox();
+    Box QAManagerDGBox= Box.createHorizontalBox();
+    Box RiskManagerBox= Box.createHorizontalBox();
 
     Map<String,List<String>> userData = new HashMap<>();//project组用户
     public Map<String,String> ProjectIDAndName = new HashMap<>();
@@ -157,6 +159,10 @@ import static com.gw.util.DealService.All_user;
         box9.add(TestEngineerDGBox);
         box9.add(new JPanel());
         box9.add(TestLeaderDGBox);
+        box9.add(new JPanel());
+        box9.add(QAManagerDGBox);
+        box9.add(new JPanel());
+        box9.add(RiskManagerBox);
 
         jp2.add(box9);
         // 创建滚动面板, 指定滚动显示的视图组件(textArea), 垂直滚动条按需显示, 水平滚动条从不显示
@@ -223,6 +229,8 @@ import static com.gw.util.DealService.All_user;
                 SystemLeaderDGBox.removeAll();
                 TestEngineerDGBox.removeAll();
                 TestLeaderDGBox.removeAll();
+                QAManagerDGBox.removeAll();
+                RiskManagerBox.removeAll();
 
                 groupMemberRecord =  new HashMap<>();
                 All_user = new ArrayList();
@@ -247,7 +255,7 @@ import static com.gw.util.DealService.All_user;
                         DynamicGroupNames.add("Functional Safety Engineer DG");
                         DynamicGroupNames.add("Functional Safety Leader DG");
                         DynamicGroupNames.add("Hardware Engineer DG");
-                        DynamicGroupNames.add("Hardware Engineer Leader DG");
+                        DynamicGroupNames.add("Hardware Leader DG");
                         DynamicGroupNames.add("PRC DG");
                         DynamicGroupNames.add("PRC Group Leader DG");
                         DynamicGroupNames.add("Project Manager DG");
@@ -258,6 +266,8 @@ import static com.gw.util.DealService.All_user;
                         DynamicGroupNames.add("System Leaders DG");
                         DynamicGroupNames.add("Test Engineer DG");
                         DynamicGroupNames.add("Test Leader DG");
+                        DynamicGroupNames.add("QA Manager DG");
+                        DynamicGroupNames.add("Risk Manager");
                         //判断是否选中projectid
 //                        Component[]  jcbs = box2.getComponents();
 ////                        for(Component component : jcbs){
@@ -403,6 +413,14 @@ import static com.gw.util.DealService.All_user;
         String TestLeaderDGName = "";
         List<String> TestLeaderDGUsers = new ArrayList<>();
         List<String> TestLeaderDGExcludeUsers = new ArrayList<>();
+
+        String QAManagerDGName = "";
+        List<String> QAManagerDGUsers = new ArrayList<>();
+        List<String> QAManagerDGExcludeUsers = new ArrayList<>();
+
+        String RiskManagerName = "";
+        List<String> RiskManagerUsers = new ArrayList<>();
+        List<String> RiskManagerExcludeUsers = new ArrayList<>();
 
 
         for (String key : groupMemberRecord.keySet()) {
@@ -571,7 +589,7 @@ import static com.gw.util.DealService.All_user;
                     }
                 }
             }
-            if(key.equals("Hardware Engineer Leader DG")){
+            if(key.equals("Hardware Leader DG")){
                 HardwareEnginnerLeaderDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
@@ -736,6 +754,36 @@ import static com.gw.util.DealService.All_user;
                     }
                 }
             }
+            if(key.equals("QA Manager DG")){
+                QAManagerDGName = key;
+                try {
+                    if(groupMemberRecord.get(key).size() > 0){
+                        QAManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
+                } catch (APIException e) {
+                    e.printStackTrace();
+                }
+                for(String s : All_user){
+                    if(QAManagerDGUsers.indexOf(s) == -1){
+                        QAManagerDGExcludeUsers.add(s);
+                    }
+                }
+            }
+            if(key.equals("Risk Manager")){
+                RiskManagerName = key;
+                try {
+                    if(groupMemberRecord.get(key).size() > 0){
+                        RiskManagerUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                    }
+                } catch (APIException e) {
+                    e.printStackTrace();
+                }
+                for(String s : All_user){
+                    if(RiskManagerUsers.indexOf(s) == -1){
+                        RiskManagerExcludeUsers.add(s);
+                    }
+                }
+            }
         }
 
         ASWEngineerDG(ProjectName,ASWEngineerDGName,ASWEngineerDGUsers,ASWEngineerDGExcludeUsers,ASWEngineerDGBox,new JButton(">"),new JButton("<"));
@@ -760,6 +808,8 @@ import static com.gw.util.DealService.All_user;
         ASWEngineerDG(ProjectName,SystemLeaderDGName,SystemLeaderDGUsers,SystemLeaderDGExcludeUsers,SystemLeaderDGBox,new JButton(">"),new JButton("<"));
         ASWEngineerDG(ProjectName,TestEngineerDGName,TestEngineerDGUsers,TestEngineerDGExcludeUsers,TestEngineerDGBox,new JButton(">"),new JButton("<"));
         ASWEngineerDG(ProjectName,TestLeaderDGName,TestLeaderDGUsers,TestLeaderDGExcludeUsers,TestLeaderDGBox,new JButton(">"),new JButton("<"));
+        ASWEngineerDG(ProjectName,QAManagerDGName,QAManagerDGUsers,QAManagerDGExcludeUsers,QAManagerDGBox,new JButton(">"),new JButton("<"));
+        ASWEngineerDG(ProjectName,RiskManagerName,RiskManagerUsers,RiskManagerExcludeUsers,RiskManagerBox,new JButton(">"),new JButton("<"));
 
     }
 
