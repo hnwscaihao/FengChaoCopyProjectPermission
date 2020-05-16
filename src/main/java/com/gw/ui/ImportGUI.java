@@ -308,8 +308,10 @@ import static com.gw.util.DealService.All_user;
                     //保存动态组到project前台
                     try {
                         new MKSCommand().updateProjectDynamicGroup(ProjectIDAndName.get(caseName),userData);
-                        jtp.setSelectedIndex(index);
-                        initBtn(0);
+                        JOptionPane.showMessageDialog(null, "保存成功!", "提示", 1);
+                        System.exit(0); //关闭主程序
+//                        jtp.setSelectedIndex(index);
+//                        initBtn(0);
                     } catch (APIException e1) {
                         JOptionPane.showMessageDialog(null, "保存错误!", "错误", 0);
                         System.exit(0); //关闭主程序
