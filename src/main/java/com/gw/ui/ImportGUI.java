@@ -206,7 +206,7 @@ import static com.gw.util.DealService.All_user;
 //        glasspane.start();//开始动画加载效果
         btn1.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e){
-                log.info("------------------");
+                log.info("------------------"+ btn1.getText());
                 ASWEngineerDGBox.removeAll();
                 ASWLeaderDGBox.removeAll();
                 BSWEngineerDGBox.removeAll();
@@ -301,7 +301,7 @@ import static com.gw.util.DealService.All_user;
 
                     jtp.setSelectedIndex(index);
                    initBtn(1);
-                   Swingfy(caseName);
+                   Swingfy(caseName,"");
 //                log.info("点击搜索");
 //                jtp.setSelectedIndex(index);
                 }else {
@@ -324,7 +324,7 @@ import static com.gw.util.DealService.All_user;
     }
 
     //info详情 复用代码
-    public void Swingfy(String ProjectName){
+    public void Swingfy(String ProjectName,String an){
         setTitle("Project动态组设置 ");
         MKSCommand m = new MKSCommand();
         //动态组和数据
@@ -430,14 +430,20 @@ import static com.gw.util.DealService.All_user;
                 ASWEngineerDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        ASWEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            ASWEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                       e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(ASWEngineerDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         ASWEngineerDGExcludeUsers.add(s);
+                    }else {
+                        if(ASWEngineerDGUsers.indexOf(s) == -1){
+                            ASWEngineerDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -445,14 +451,20 @@ import static com.gw.util.DealService.All_user;
                 ASWLeaderDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        ASWLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            ASWLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(ASWLeaderDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         ASWLeaderDGExcludeUsers.add(s);
+                    }else {
+                        if(ASWLeaderDGUsers.indexOf(s) == -1){
+                            ASWLeaderDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -460,14 +472,20 @@ import static com.gw.util.DealService.All_user;
                 BSWEngineerDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        BSWEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            BSWEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(BSWEngineerDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         BSWEngineerDGExcludeUsers.add(s);
+                    }else {
+                        if(BSWEngineerDGUsers.indexOf(s) == -1){
+                            BSWEngineerDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -475,14 +493,20 @@ import static com.gw.util.DealService.All_user;
                 BSWLeaderDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        BSWLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            BSWLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(BSWLeaderDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         BSWLeaderDGExcludeUsers.add(s);
+                    }else {
+                        if(BSWLeaderDGUsers.indexOf(s) == -1){
+                            BSWLeaderDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -490,29 +514,42 @@ import static com.gw.util.DealService.All_user;
                 CCBDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        CCBDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            CCBDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(CCBDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         CCBDGExcludeUsers.add(s);
+                    }else {
+                        if(CCBDGUsers.indexOf(s) == -1){
+                            CCBDGExcludeUsers.add(s);
+                        }
                     }
+
                 }
             }
             if(key.equals("CCB Leader DG")){
                 CCBLeaderDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        CCBLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            CCBLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(CCBLeaderDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         CCBLeaderDGExcludeUsers.add(s);
+                    }else {
+                        if(CCBLeaderDGUsers.indexOf(s) == -1){
+                            CCBLeaderDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -520,14 +557,20 @@ import static com.gw.util.DealService.All_user;
                 ConfigurationManagerDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        ConfigurationManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            ConfigurationManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(ConfigurationManagerDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         ConfigurationManagerDGExcludeUsers.add(s);
+                    }else {
+                        if(ConfigurationManagerDGUsers.indexOf(s) == -1){
+                            ConfigurationManagerDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -535,14 +578,20 @@ import static com.gw.util.DealService.All_user;
                 DirectorDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        DirectorDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            DirectorDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(DirectorDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         DirectorDGExcludeUsers.add(s);
+                    }else {
+                        if(DirectorDGUsers.indexOf(s) == -1){
+                            DirectorDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -550,14 +599,20 @@ import static com.gw.util.DealService.All_user;
                 FunctionSafetyEngineerDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        FunctionSafetyEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            FunctionSafetyEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(FunctionSafetyEngineerDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         FunctionSafetyEngineerDGExcludeUsers.add(s);
+                    }else {
+                        if(FunctionSafetyEngineerDGUsers.indexOf(s) == -1){
+                            FunctionSafetyEngineerDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -565,14 +620,20 @@ import static com.gw.util.DealService.All_user;
                 FunctionSafetyLeaderDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        FunctionSafetyLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            FunctionSafetyLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(FunctionSafetyLeaderDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         FunctionSafetyLeaderDGExcludeUsers.add(s);
+                    }else {
+                        if(FunctionSafetyLeaderDGUsers.indexOf(s) == -1){
+                            FunctionSafetyLeaderDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -580,14 +641,20 @@ import static com.gw.util.DealService.All_user;
                 HardwareEngineerDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        HardwareEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            HardwareEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(HardwareEngineerDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         HardwareEngineerDGExcludeUsers.add(s);
+                    }else {
+                        if(HardwareEngineerDGUsers.indexOf(s) == -1){
+                            HardwareEngineerDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -595,14 +662,20 @@ import static com.gw.util.DealService.All_user;
                 HardwareEnginnerLeaderDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        HardwareEnginnerLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            HardwareEnginnerLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(HardwareEnginnerLeaderDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         HardwareEnginnerLeaderDGExcludeUsers.add(s);
+                    }else {
+                        if(HardwareEnginnerLeaderDGUsers.indexOf(s) == -1){
+                            HardwareEnginnerLeaderDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -610,14 +683,20 @@ import static com.gw.util.DealService.All_user;
                 PRCDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        PRCDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            PRCDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(PRCDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         PRCDGExcludeUsers.add(s);
+                    }else {
+                        if(PRCDGUsers.indexOf(s) == -1){
+                            PRCDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -625,14 +704,20 @@ import static com.gw.util.DealService.All_user;
                 PRCGroupLeaderDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        PRCGroupLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            PRCGroupLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(PRCGroupLeaderDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         PRCGroupLeaderDGExcludeUsers.add(s);
+                    }else {
+                        if(PRCGroupLeaderDGUsers.indexOf(s) == -1){
+                            PRCGroupLeaderDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -640,14 +725,20 @@ import static com.gw.util.DealService.All_user;
                 ProjectManagerDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        ProjectManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            ProjectManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(ProjectManagerDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         ProjectManagerDGExcludeUsers.add(s);
+                    }else {
+                        if(ProjectManagerDGUsers.indexOf(s) == -1){
+                            ProjectManagerDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -655,14 +746,20 @@ import static com.gw.util.DealService.All_user;
                 QADGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        QADGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            QADGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(QADGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         QADGExcludeUsers.add(s);
+                    }else {
+                        if(QADGUsers.indexOf(s) == -1){
+                            QADGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -670,14 +767,20 @@ import static com.gw.util.DealService.All_user;
                 ReviewCommitteeDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        ReviewCommitteeDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            ReviewCommitteeDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(ReviewCommitteeDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         ReviewCommitteeDGExcludeUsers.add(s);
+                    }else {
+                        if(ReviewCommitteeDGUsers.indexOf(s) == -1){
+                            ReviewCommitteeDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -685,14 +788,20 @@ import static com.gw.util.DealService.All_user;
                 ReviewCommitteeLeaderDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        ReviewCommitteeLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            ReviewCommitteeLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(ReviewCommitteeLeaderDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         ReviewCommitteeLeaderDGExcludeUsers.add(s);
+                    }else {
+                        if(ReviewCommitteeLeaderDGUsers.indexOf(s) == -1){
+                            ReviewCommitteeLeaderDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -700,14 +809,20 @@ import static com.gw.util.DealService.All_user;
                 SystemEngineerDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        SystemEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            SystemEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(SystemEngineerDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         SystemEngineerDGExcludeUsers.add(s);
+                    }else {
+                        if(SystemEngineerDGUsers.indexOf(s) == -1){
+                            SystemEngineerDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -715,14 +830,20 @@ import static com.gw.util.DealService.All_user;
                 SystemLeaderDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        SystemLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            SystemLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(SystemLeaderDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         SystemLeaderDGExcludeUsers.add(s);
+                    }else {
+                        if(SystemLeaderDGUsers.indexOf(s) == -1){
+                            SystemLeaderDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -730,14 +851,20 @@ import static com.gw.util.DealService.All_user;
                 TestEngineerDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        TestEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            TestEngineerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(TestEngineerDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         TestEngineerDGExcludeUsers.add(s);
+                    }else {
+                        if(TestEngineerDGUsers.indexOf(s) == -1){
+                            TestEngineerDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -745,14 +872,20 @@ import static com.gw.util.DealService.All_user;
                 TestLeaderDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        TestLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            TestLeaderDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(TestLeaderDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         TestLeaderDGExcludeUsers.add(s);
+                    }else {
+                        if(TestLeaderDGUsers.indexOf(s) == -1){
+                            TestLeaderDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -760,14 +893,20 @@ import static com.gw.util.DealService.All_user;
                 QAManagerDGName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        QAManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            QAManagerDGUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(QAManagerDGUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         QAManagerDGExcludeUsers.add(s);
+                    }else {
+                        if(QAManagerDGUsers.indexOf(s) == -1){
+                            QAManagerDGExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -775,14 +914,20 @@ import static com.gw.util.DealService.All_user;
                 RiskManagerName = key;
                 try {
                     if(groupMemberRecord.get(key).size() > 0){
-                        RiskManagerUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        if(!an.equals("Clean")){
+                            RiskManagerUsers =  m.getAllUserIdAndName1(groupMemberRecord.get(key));
+                        }
                     }
                 } catch (APIException e) {
                     e.printStackTrace();
                 }
                 for(String s : All_user){
-                    if(RiskManagerUsers.indexOf(s) == -1){
+                    if(an.equals("Clean")){
                         RiskManagerExcludeUsers.add(s);
+                    }else {
+                        if(RiskManagerUsers.indexOf(s) == -1){
+                            RiskManagerExcludeUsers.add(s);
+                        }
                     }
                 }
             }
@@ -1024,15 +1169,46 @@ import static com.gw.util.DealService.All_user;
 
     }
 
+    //清楚按钮 清楚右侧动态组用户
     public void Listener3(JButton btn1, final int  index) {
         btn1.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
+                ASWEngineerDGBox.removeAll();
+                ASWLeaderDGBox.removeAll();
+                BSWEngineerDGBox.removeAll();
+                BSWLeaderDGBox.removeAll();
+                CCBDGBox.removeAll();
+                CCBLeaderDGBox.removeAll();
+                ConfigurationManagerDGBox.removeAll();
+                DirectorDGBox.removeAll();
+                FunctionSafetyEngineerDGBox.removeAll();
+                FunctionSafetyLeaderDGBox.removeAll();
+                HardwareEngineerDGBox.removeAll();
+                HardwareEnginnerLeaderDGBox.removeAll();
+                PRCDGBox.removeAll();
+                PRCGroupLeaderDGBox.removeAll();
+                ProjectManagerDGBox.removeAll();
+                QADGBox.removeAll();
+                ReviewCommitteeDGBox.removeAll();
+                ReviewCommitteeLeaderDGBox.removeAll();
+                SystemEngineerDGBox.removeAll();
+                SystemLeaderDGBox.removeAll();
+                TestEngineerDGBox.removeAll();
+                TestLeaderDGBox.removeAll();
+                QAManagerDGBox.removeAll();
+                RiskManagerBox.removeAll();
+
+                Swingfy(caseName,btn1.getText());
+
                 List<JCheckBox> jLabels = new ArrayList<JCheckBox>();
                 harvestJLabels(box9, jLabels);
                 for(JCheckBox j : jLabels){
                     j.setSelected(false);
 //                    log.info(j);
                 }
+
+                //刷新
+                jp2.updateUI();
             }
         });
     }

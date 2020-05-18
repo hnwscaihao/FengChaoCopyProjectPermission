@@ -1177,8 +1177,8 @@ public class MKSCommand {
 			String pwd = "";
 			if(defaultUser == null || "".equals(defaultUser) ){
 				//本地
-//				defaultUser = "admin";
-//				pwd = "admin";
+				defaultUser = "admin";
+				pwd = "admin";
 
 				//服务器
 				defaultUser = "admin";
